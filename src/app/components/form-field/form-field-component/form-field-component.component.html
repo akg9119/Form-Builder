@@ -1,0 +1,6 @@
+<div>
+    <input *ngIf="type === 'text'" [formControl]="control" [placeholder]="placeholder">
+    <textarea *ngIf="type === 'textarea'" [formControl]="control" [placeholder]="placeholder"></textarea>
+    <!-- Add more conditions for different field types -->
+  </div>
+  
