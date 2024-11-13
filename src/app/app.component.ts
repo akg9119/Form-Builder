@@ -5,5 +5,4 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'Dynamic Form Builder';
 }
