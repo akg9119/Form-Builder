@@ -11,15 +11,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { AppComponent } from './app.component';
-import { FormBuilderComponentComponent } from './components/form-builder/form-builder-component/form-builder-component.component';
-import { FormFieldComponentComponent } from './components/form-field/form-field-component/form-field-component.component';
+import { FormBuilderComponantComponent } from './components/form-builder-componant/form-builder-componant.component';
+import { FormFieldComponantComponent } from './components/form-field-componant/form-field-componant.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormBuilderComponentComponent,
-    FormFieldComponentComponent
+    FormBuilderComponantComponent,
+    FormFieldComponantComponent
   ],
   imports: [
     BrowserModule,
@@ -27,9 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     MatFormFieldModule,
+    NoopAnimationsModule,
     MatInputModule,
+    BrowserAnimationsModule,
     MatSelectModule,
     MatCheckboxModule,
     MatRadioModule,
