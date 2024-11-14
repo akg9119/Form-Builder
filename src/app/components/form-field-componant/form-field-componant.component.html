@@ -1,24 +1,27 @@
 <div [formGroup]="form">
     <ng-container [ngSwitch]="field.type">
+      <h4 class="lableName" *ngSwitchCase="'text'">{{ field.label }}</h4>
       <mat-form-field *ngSwitchCase="'text'" appearance="outline" class="field">
-        <mat-label>{{ field.label }}</mat-label>
         <input matInput [formControlName]="field.name" [placeholder]="field.placeholder" />
       </mat-form-field>
-  
+
+      <h4 class="lableName" *ngSwitchCase="'textarea'">{{ field.label }}</h4>
       <mat-form-field *ngSwitchCase="'textarea'" appearance="outline" class="field">
-        <mat-label>{{ field.label }}</mat-label>
         <textarea matInput [formControlName]="field.name" [placeholder]="field.placeholder"></textarea>
       </mat-form-field>
-  
+      <h4 class="lableName" *ngSwitchCase="'dropdown'">{{ field.label }}</h4>
       <mat-form-field *ngSwitchCase="'dropdown'" appearance="outline" class="field">
-        <mat-label>{{ field.label }}</mat-label>
-        <mat-select [formControlName]="field.name">
+        <mat-select [formControlName]="field.name" [placeholder]="field.placeholder">
           <mat-option *ngFor="let option of field.options" [value]="option">{{ option }}</mat-option>
         </mat-select>
-      </mat-form-field>
-  
-      <mat-checkbox *ngSwitchCase="'checkbox'" [formControlName]="field.name">{{ field.label }}</mat-checkbox>
-  
+      </mat-form-field>    
+
+      <h4 class="lableName" *ngSwitchCase="'checkbox'">{{ field.label }}</h4>
+    <div *ngSwitchCase="'checkbox'" class="checkbox-group" style="display: flex;">
+      <div *ngFor="let option of field.options">
+        <mat-checkbox [formControlName]="field.name + '_' + option" color="primary">{{ option }}</mat-checkbox>
+      </div>
+    </div>
       <div *ngSwitchCase="'radio'" class="radio-group">
         <label>{{ field.label }}</label>
         <mat-radio-group [formControlName]="field.name">

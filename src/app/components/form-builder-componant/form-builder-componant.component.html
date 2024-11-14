@@ -1,48 +1,52 @@
 <div class="container">
-    <mat-card class="customization-panel">
-      <h3>Customize Field</h3>
-      <mat-form-field appearance="outline" class="field">
-        <mat-label>Field Type</mat-label>
-        <mat-select [(ngModel)]="fieldType">
-          <mat-option value="text">Text</mat-option>
-          <mat-option value="textarea">Textarea</mat-option>
-          <mat-option value="dropdown">Dropdown</mat-option>
-          <mat-option value="checkbox">Checkbox</mat-option>
-          <mat-option value="radio">Radio Button</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="field">
-        <mat-label>Label</mat-label>
-        <input matInput [(ngModel)]="fieldLabel" placeholder="Enter field label" />
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="field">
-        <mat-label>Placeholder</mat-label>
-        <input matInput [(ngModel)]="fieldPlaceholder" placeholder="Enter placeholder" />
-      </mat-form-field>
-  
-      <mat-form-field *ngIf="fieldType === 'dropdown' || fieldType === 'radio'" appearance="outline" class="field">
-        <mat-label>Options (comma-separated)</mat-label>
-        <input matInput [(ngModel)]="fieldOptions" placeholder="Option 1, Option 2, Option 3" />
-      </mat-form-field>
-      <mat-checkbox [(ngModel)]="required">Required</mat-checkbox>
-  
-      <div class="controls">
-        <button mat-raised-button color="primary" (click)="addField()">Add Field</button>
+  <mat-card class="customization-panel">
+    <h3>Customize Field</h3>
+    <h4 class="lableName">Field Type</h4>
+    <mat-form-field appearance="outline" class="field">
+      <mat-select [(ngModel)]="fieldType" (ngModelChange)="onFieldTypeChange()">
+        <mat-option value="text">Text</mat-option>
+        <mat-option value="textarea">Textarea</mat-option>
+        <mat-option value="dropdown">Dropdown</mat-option>
+        <mat-option value="checkbox">Checkbox</mat-option>
+        <mat-option value="radio">Radio Button</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <h4 class="lableName">Label</h4>
+    <mat-form-field appearance="outline" class="field">
+      <input matInput [(ngModel)]="fieldLabel" placeholder="Enter field label" />
+    </mat-form-field>
+
+    <h4 class="lableName">Placeholder</h4>
+    <mat-form-field appearance="outline" class="field">
+      <input matInput [(ngModel)]="fieldPlaceholder" placeholder="Enter placeholder" />
+    </mat-form-field>
+
+    <h4 *ngIf="fieldType === 'dropdown' || fieldType === 'radio' || fieldType === 'checkbox'" class="lableName">
+      Options (comma-separated)
+    </h4>
+    <mat-form-field *ngIf="fieldType === 'dropdown' || fieldType === 'radio' || fieldType === 'checkbox'" appearance="outline" class="field">
+      <input matInput [(ngModel)]="fieldOptions" placeholder="Option 1, Option 2, Option 3" />
+    </mat-form-field>
+
+    <mat-checkbox [(ngModel)]="required" color="success">Required</mat-checkbox>
+
+    <div class="controls">
+      <button mat-raised-button color="primary" (click)="addField()">Add Field</button>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-preview">
+    <h3>Form Preview</h3>
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div *ngFor="let field of fields; let i = index" class="form-field">
+        <app-form-field-componant [field]="field" [form]="form"></app-form-field-componant>
+        <button mat-icon-button color="warn" (click)="removeField(i)" style="    margin-top: 18px;">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
-    </mat-card>
-    <mat-card class="form-preview">
-      <h3>Form Preview</h3>
-      <form [formGroup]="form" (ngSubmit)="submitForm()">
-        <div *ngFor="let field of fields; let i = index" class="form-field">
-          <app-form-field-componant [field]="field" [form]="form"></app-form-field-componant>
-          <button mat-icon-button color="warn" (click)="removeField(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid ||  fields.length === 0 ">Submit</button>
-      </form>
-      <!-- <h3>Form Data Preview</h3>
-      <pre>{{ form.value | json }}</pre> -->
-    </mat-card>
-  </div>
+      <button mat-raised-button color="accent" type="submit"
+        [disabled]="form.invalid || fields.length === 0">Submit</button>
+    </form>
+  </mat-card>
+</div>

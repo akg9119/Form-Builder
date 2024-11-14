@@ -28,7 +28,8 @@ export class FormBuilderComponantComponent implements OnInit {
   ngOnInit(): void {}
   addField() {
     const name = `field${this.fields.length + 1}`;
-    const optionsArray = this.fieldOptions.split(',').map(option => option.trim());    
+    const optionsArray = this.fieldOptions.split(',').map(option => option.trim());
+  
     let newField: FormField = {
       type: this.fieldType,
       name,
@@ -37,12 +38,30 @@ export class FormBuilderComponantComponent implements OnInit {
       options: optionsArray.length > 0 ? optionsArray : undefined,
       validations: []
     };
+  
     if (this.required) {
       newField.validations.push(Validators.required);
     }
+  
     this.fields.push(newField);
-    this.form.addControl(name, this.fb.control('', newField.validations));
+  
+    if (this.fieldType === 'checkbox') {
+      optionsArray.forEach(option => {
+        this.form.addControl(`${name}_${option}`, this.fb.control(false));
+      });
+    } else {
+      this.form.addControl(name, this.fb.control('', newField.validations));
+    }
+  
     this.resetCustomization();
+    this.onFieldTypeChange();
+  }
+  
+
+  onFieldTypeChange() {
+    this.fieldLabel = '';
+    this.fieldPlaceholder = '';
+    this.fieldOptions = ''; 
   }
   resetCustomization() {
     this.fieldType = 'text';
@@ -58,9 +77,24 @@ export class FormBuilderComponantComponent implements OnInit {
   }
   submitForm() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      const formData = { ...this.form.value };
+  
+      this.fields.forEach(field => {
+        if (field.type === 'checkbox' && field.options) {
+          formData[field.name] = field.options
+            .filter(option => formData[`${field.name}_${option}`])
+            .map(option => option);
+  
+          field.options.forEach(option => {
+            delete formData[`${field.name}_${option}`];
+          });
+        }
+      });
+  
+      console.log(formData);
       alert('Form submitted successfully!');
       this.form.reset();
     }
   }
+  
 }
